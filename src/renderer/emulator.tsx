@@ -11,6 +11,7 @@ import { CardSettings } from "./card-settings";
 import { EmulatorInfo } from "./emulator-info";
 import { CardDrive } from "./card-drive";
 import { getStatePath } from "./utils/get-state-path";
+import { V86 } from "./lib/libv86";
 
 export interface EmulatorState {
   currentUiCard: string;
@@ -300,10 +301,10 @@ export class Emulator extends React.Component<{}, EmulatorState> {
         async: true,
         size: await getDiskImageSize(CONSTANTS.IMAGE_PATH),
       },
-      fda: {
-        buffer: this.state.floppyFile,
-      },
-      cdrom: cdrom,
+      // fda: {
+      //   buffer: this.state.floppyFile,
+      // },
+      // cdrom: cdrom,
       boot_order: 0x132,
       // One day, maybe!
       // network_relay_url: "ws://localhost:8080/"
@@ -311,7 +312,7 @@ export class Emulator extends React.Component<{}, EmulatorState> {
 
     console.log(`🚜 Starting emulator with options`, options);
 
-    window["emulator"] = new V86Starter(options);
+    window["emulator"] = new V86(options);
 
     // New v86 instance
     this.setState({
